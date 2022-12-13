@@ -49,7 +49,6 @@ namespace When_Pigs_Fly
 
         //Variable for the PigPlayer instance
         private PigPlayer m_player;
-        private bool m_playerExists = false;
 
         //Variables for Cloud instances from Backdrop Class
         private Backdrop m_cloud1;
@@ -57,30 +56,23 @@ namespace When_Pigs_Fly
         private Backdrop m_cloud3;
         private Backdrop m_cloud4;
         private Backdrop m_cloud5;
-        private bool m_cloudsExist = false;
 
         //Variables for Terrain instances from Backdrop Class
         private Backdrop m_terrain1;
         private Backdrop m_terrain2;
-        private bool m_terrainExists = false;
 
         //Variables for Building instances from Backdrop Class
         private Backdrop m_backdrop1;
         private Backdrop m_backdrop2;
         private Backdrop m_backdrop3;
         private Backdrop m_backdrop4;
-        private bool m_backdropExists = false;
 
         //Bool for checking if the backdrop has been set to correct positions
         private bool m_cloudPosSet = false;
-        private bool m_terrainPosSet = false;
-        private bool m_backdropPosSet = false;
-
 
         //Bools for activating multiple nets when they're required instead of instantly
         private bool m_net2IsActive = false;
         private bool m_net3IsActive = false;
-        private bool m_netsExist = false;
         private int m_netTrigger = 555;
 
         //Variables for tracking the score
@@ -138,6 +130,8 @@ namespace When_Pigs_Fly
             MediaPlayer.IsRepeating = true;
 
             base.Initialize();
+
+            CreateClouds();
         }
 
         protected override void LoadContent()
@@ -171,14 +165,12 @@ namespace When_Pigs_Fly
             m_netObst1 = new NetObstacle();
             m_netObst2 = new NetObstacle();
             m_netObst3 = new NetObstacle();
-            m_netsExist = true;
         }
 
         //Creating an instance of the player
         private void CreatePlayer()
         {
             m_player = new PigPlayer(this);
-            m_playerExists = true;
         }
 
         private void CreateClouds()
@@ -188,14 +180,12 @@ namespace When_Pigs_Fly
             m_cloud3 = new Backdrop(this);
             m_cloud4 = new Backdrop(this);
             m_cloud5 = new Backdrop(this);
-            m_cloudsExist = true;
         }
 
         private void CreateTerrain()
         {
             m_terrain1 = new Backdrop(this);
             m_terrain2 = new Backdrop(this);
-            m_terrainExists = true;
         }
 
         private void CreateBackdrop()
@@ -204,7 +194,6 @@ namespace When_Pigs_Fly
             m_backdrop2 = new Backdrop(this);
             m_backdrop3 = new Backdrop(this);
             m_backdrop4 = new Backdrop(this);
-            m_backdropExists = true;
         }
 
         private void SetCloudPos()
@@ -219,7 +208,6 @@ namespace When_Pigs_Fly
         private void SetTerrainPos()
         {
             m_terrain2.m_terrainPos.X = m_terrain2.m_terrainStartPos2;
-            m_terrainPosSet = true;
         }
 
         private void SetBackdropPos()
@@ -227,7 +215,6 @@ namespace When_Pigs_Fly
             m_backdrop2.m_backdropPos.X = m_backdrop2.m_backdropStartPos2;
             m_backdrop3.m_backdropPos.X = m_backdrop3.m_backdropStartPos3;
             m_backdrop4.m_backdropPos2.X = m_backdrop4.m_backdropStartPos4;
-            m_backdropPosSet = true;
         }
 
         public void PlayFlapSFX()
@@ -276,10 +263,6 @@ namespace When_Pigs_Fly
 
             //Setting the score string so we can measure the length later and display it in the center of the screen
             m_youScoredString = "You scored " + m_scoreCount + "!";
-
-            //Creating the clouds if they're not already there
-            if (m_cloudsExist == false)
-                CreateClouds();
 
             if (m_cloudPosSet == false)
                 SetCloudPos();
@@ -452,7 +435,6 @@ namespace When_Pigs_Fly
                     _spriteBatch.Draw(m_startScreen, m_fullScreenImgPos, Color.White);
                     _spriteBatch.Draw(m_startPrompt, m_startPromptPos, null, Color.White, 0f, startPromptCenter, m_promptScale, SpriteEffects.None, 1);
                     _spriteBatch.Draw(m_howToPrompt, m_howToPromptPos, null, Color.White, 0f, howToPromptCenter, m_promptScale, SpriteEffects.None, 1);
-                    _spriteBatch.DrawString(m_font, m_volumeControl.GetMusicVolume().ToString(), new Vector2(50, 50), Color.Black);
                 }
                 if (m_howToScreen == true)
                 {
